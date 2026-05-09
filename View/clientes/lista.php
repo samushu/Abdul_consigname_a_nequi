@@ -43,7 +43,7 @@ $mensajes = [
         <?php else: ?>
             <?php foreach ($datos['clientes'] as $c): ?>
             <tr>
-                <td style="color:var(--gris-lite)"><?= $c['id'] ?></td>
+                <td class="td-id"><?= $c['id'] ?></td>
                 <td><strong><?= htmlspecialchars($c['nombre']) ?></strong></td>
                 <td><?= htmlspecialchars($c['documento']) ?></td>
                 <td><?= htmlspecialchars($c['telefono']) ?></td>

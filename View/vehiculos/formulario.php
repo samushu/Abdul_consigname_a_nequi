@@ -53,8 +53,7 @@ function err(array $errs, string $key): string {
             <div class="campo">
                 <label for="placa">Placa</label>
                 <input type="text" id="placa" name="placa"
-                       value="<?= val($v, 'placa') ?>" placeholder="ABC-123"
-                       style="text-transform:uppercase" required>
+                       value="<?= val($v, 'placa') ?>" placeholder="ABC-123" required>
                 <?= err($errores, 'placa') ?>
             </div>
 

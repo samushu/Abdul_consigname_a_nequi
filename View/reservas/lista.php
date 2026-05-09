@@ -4,10 +4,10 @@ $pageTitle = 'Reservas';
 require_once __DIR__ . '/../shared/header.php';
 
 $mensajes = [
-    'creada'       => ['tipo' => 'exito', 'txt' => '✓ Reserva creada correctamente.'],
-    'finalizada'   => ['tipo' => 'exito', 'txt' => '✓ Reserva finalizada. Vehículo disponible.'],
-    'cancelada'    => ['tipo' => 'exito', 'txt' => '✓ Reserva cancelada.'],
-    'db'           => ['tipo' => 'error', 'txt' => '✗ Error en la base de datos.'],
+    'creada'     => ['tipo' => 'exito', 'txt' => '✓ Reserva creada correctamente.'],
+    'finalizada' => ['tipo' => 'exito', 'txt' => '✓ Reserva finalizada. Vehículo disponible.'],
+    'cancelada'  => ['tipo' => 'exito', 'txt' => '✓ Reserva cancelada.'],
+    'db'         => ['tipo' => 'error', 'txt' => '✗ Error en la base de datos.'],
 ];
 
 $badgeReserva = [
@@ -50,21 +50,19 @@ $iconoCat = ['AUTOMOVIL' => '🚗', 'CAMIONETA' => '🛻', 'MOTO' => '🏍️'];
         <?php else: ?>
             <?php foreach ($datos['reservas'] as $r): ?>
             <tr>
-                <td style="color:var(--gris-lite)"><?= $r['id'] ?></td>
+                <td class="td-id"><?= $r['id'] ?></td>
                 <td>
                     <strong><?= htmlspecialchars($r['cliente_nombre']) ?></strong><br>
-                    <small style="color:var(--gris-lite)"><?= htmlspecialchars($r['cliente_documento']) ?></small>
+                    <small class="td-sub"><?= htmlspecialchars($r['cliente_documento']) ?></small>
                 </td>
                 <td>
                     <span><?= $iconoCat[$r['vehiculo_categoria']] ?? '🚘' ?></span>
                     <?= htmlspecialchars($r['vehiculo_marca']) ?> <?= htmlspecialchars($r['vehiculo_modelo']) ?><br>
-                    <code style="font-size:.78rem;background:var(--gris-med);padding:.1rem .3rem;border-radius:3px">
-                        <?= htmlspecialchars($r['vehiculo_placa']) ?>
-                    </code>
+                    <code class="placa-code"><?= htmlspecialchars($r['vehiculo_placa']) ?></code>
                 </td>
                 <td><?= date('d/m/Y', strtotime($r['fecha_inicio'])) ?></td>
                 <td><?= date('d/m/Y', strtotime($r['fecha_fin'])) ?></td>
-                <td style="font-weight:600">$ <?= number_format($r['total'], 0, ',', '.') ?></td>
+                <td class="td-total">$ <?= number_format($r['total'], 0, ',', '.') ?></td>
                 <td><span class="badge <?= $badgeReserva[$r['estado']] ?>"><?= $r['estado'] ?></span></td>
                 <td>
                     <div class="acciones">
@@ -76,7 +74,7 @@ $iconoCat = ['AUTOMOVIL' => '🚗', 'CAMIONETA' => '🛻', 'MOTO' => '🏍️'];
                            class="btn btn-rojo btn-sm"
                            onclick="return confirm('¿Cancelar la reserva #<?= $r['id'] ?>?')">Cancelar</a>
                     <?php else: ?>
-                        <span style="color:var(--gris-lite);font-size:.8rem">Sin acciones</span>
+                        <span class="sin-acciones">Sin acciones</span>
                     <?php endif; ?>
                     </div>
                 </td>

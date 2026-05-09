@@ -4,12 +4,10 @@ $esEditar  = !empty($datos['id']);
 $pageTitle = $esEditar ? 'Editar Cliente' : 'Nuevo Cliente';
 require_once __DIR__ . '/../shared/header.php';
 
-// Soporte para re-mostrar datos tras error de validación
 $prev    = $_SESSION['form_data']    ?? [];
 $errores = $_SESSION['form_errores'] ?? [];
 unset($_SESSION['form_data'], $_SESSION['form_errores']);
 
-// Si estamos editando usamos los datos del modelo, sino los del POST previo
 $v = $datos['cliente'] ?? $prev;
 
 function val(array $arr, string $key): string {
@@ -76,3 +74,4 @@ function err(array $errs, string $key): string {
 </div>
 
 <?php require_once __DIR__ . '/../shared/footer.php'; ?>
+

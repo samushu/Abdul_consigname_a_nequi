@@ -13,9 +13,9 @@ $mensajes = [
 
 $iconoCategoria = ['AUTOMOVIL' => '🚗', 'CAMIONETA' => '🛻', 'MOTO' => '🏍️'];
 $badgeEstado    = [
-    'DISPONIBLE'   => 'badge-verde',
-    'ALQUILADO'    => 'badge-rojo',
-    'MANTENIMIENTO'=> 'badge-amber',
+    'DISPONIBLE'    => 'badge-verde',
+    'ALQUILADO'     => 'badge-rojo',
+    'MANTENIMIENTO' => 'badge-amber',
 ];
 ?>
 
@@ -51,14 +51,14 @@ $badgeEstado    = [
         <?php else: ?>
             <?php foreach ($datos['vehiculos'] as $v): ?>
             <tr>
-                <td style="color:var(--gris-lite)"><?= $v['id'] ?></td>
+                <td class="td-id"><?= $v['id'] ?></td>
                 <td>
                     <span class="ico"><?= $iconoCategoria[$v['categoria']] ?? '🚘' ?></span>
-                    <small style="color:var(--gris-lite)"><?= $v['categoria'] ?></small>
+                    <small class="cat-label"><?= $v['categoria'] ?></small>
                 </td>
                 <td><strong><?= htmlspecialchars($v['marca']) ?> <?= htmlspecialchars($v['modelo']) ?></strong></td>
                 <td><?= $v['anio'] ?></td>
-                <td><code style="background:var(--gris-med);padding:.1rem .45rem;border-radius:4px"><?= htmlspecialchars($v['placa']) ?></code></td>
+                <td><code class="placa-code"><?= htmlspecialchars($v['placa']) ?></code></td>
                 <td><span class="badge <?= $badgeEstado[$v['estado']] ?? 'badge-gris' ?>"><?= $v['estado'] ?></span></td>
                 <td>$ <?= number_format($v['precio_dia'], 0, ',', '.') ?></td>
                 <td>

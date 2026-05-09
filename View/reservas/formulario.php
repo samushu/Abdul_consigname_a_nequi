@@ -70,24 +70,20 @@ function err(array $errs, string $key): string {
                 <?= err($errores, 'fecha_fin') ?>
             </div>
 
-            <!-- Resumen de costo -->
-            <div class="campo full" id="resumen-wrap" style="display:none">
-                <div style="background:var(--gris-med);border-radius:var(--radio);padding:1rem;
-                            display:flex;gap:2rem;align-items:center;flex-wrap:wrap">
-                    <div>
-                        <div style="font-family:var(--font-h);font-size:.75rem;color:var(--gris-lite);
-                                    text-transform:uppercase;letter-spacing:.5px">Días</div>
-                        <div id="resumen-dias" style="font-size:1.4rem;font-weight:700"></div>
+            <!-- Resumen de costo — visible/oculto via clase CSS -->
+            <div class="campo full resumen-wrap" id="resumen-wrap">
+                <div class="resumen-box">
+                    <div class="resumen-item">
+                        <span class="resumen-lbl">Días</span>
+                        <span class="resumen-val" id="resumen-dias"></span>
                     </div>
-                    <div>
-                        <div style="font-family:var(--font-h);font-size:.75rem;color:var(--gris-lite);
-                                    text-transform:uppercase;letter-spacing:.5px">Precio / Día</div>
-                        <div id="resumen-precio" style="font-size:1.4rem;font-weight:700"></div>
+                    <div class="resumen-item">
+                        <span class="resumen-lbl">Precio / Día</span>
+                        <span class="resumen-val" id="resumen-precio"></span>
                     </div>
-                    <div>
-                        <div style="font-family:var(--font-h);font-size:.75rem;color:var(--gris-lite);
-                                    text-transform:uppercase;letter-spacing:.5px">Total estimado</div>
-                        <div id="resumen-total" style="font-size:1.6rem;font-weight:800;color:var(--rojo-claro)"></div>
+                    <div class="resumen-item">
+                        <span class="resumen-lbl">Total estimado</span>
+                        <span class="resumen-val resumen-val--big" id="resumen-total"></span>
                     </div>
                 </div>
             </div>
@@ -101,7 +97,6 @@ function err(array $errs, string $key): string {
 </div>
 
 <script>
-// Cálculo en tiempo real del costo estimado
 const selVeh    = document.getElementById('vehiculo_id');
 const inpInicio = document.getElementById('fecha_inicio');
 const inpFin    = document.getElementById('fecha_fin');
@@ -114,7 +109,8 @@ function calcular() {
     const fin    = new Date(inpFin.value);
 
     if (!precio || isNaN(ini) || isNaN(fin) || fin < ini) {
-        wrap.style.display = 'none'; return;
+        wrap.classList.remove('activo');
+        return;
     }
 
     const dias  = Math.floor((fin - ini) / 86400000) + 1;
@@ -124,21 +120,20 @@ function calcular() {
     document.getElementById('resumen-dias').textContent   = dias;
     document.getElementById('resumen-precio').textContent = fmt(precio);
     document.getElementById('resumen-total').textContent  = fmt(total);
-    wrap.style.display = 'block';
+    wrap.classList.add('activo');
 }
 
 selVeh.addEventListener('change', calcular);
 inpInicio.addEventListener('change', calcular);
 inpFin.addEventListener('change', calcular);
 
-// Sincronizar mínimo de fecha_fin con fecha_inicio
 inpInicio.addEventListener('change', () => {
     inpFin.min = inpInicio.value;
     if (inpFin.value < inpInicio.value) inpFin.value = inpInicio.value;
     calcular();
 });
 
-calcular(); // correr al cargar si hay valores previos
+calcular();
 </script>
 
 <?php require_once __DIR__ . '/../shared/footer.php'; ?>
