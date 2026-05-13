@@ -11,8 +11,7 @@ $mensajes = [
     'db'               => ['tipo' => 'error', 'txt' => '✗ Error en la base de datos.'],
 ];
 
-$iconoCategoria = ['AUTOMOVIL' => '🚗', 'CAMIONETA' => '🛻', 'MOTO' => '🏍️'];
-$badgeEstado    = [
+$badgeEstado = [
     'DISPONIBLE'    => 'badge-verde',
     'ALQUILADO'     => 'badge-rojo',
     'MANTENIMIENTO' => 'badge-amber',
@@ -36,8 +35,7 @@ $badgeEstado    = [
         <thead>
             <tr>
                 <th>#</th>
-                <th>Categoría</th>
-                <th>Marca / Modelo</th>
+                <th>Vehículo</th>
                 <th>Año</th>
                 <th>Placa</th>
                 <th>Estado</th>
@@ -47,16 +45,30 @@ $badgeEstado    = [
         </thead>
         <tbody>
         <?php if (empty($datos['vehiculos'])): ?>
-            <tr><td colspan="8" class="tabla-vacia">No hay vehículos registrados aún.</td></tr>
+            <tr><td colspan="7" class="tabla-vacia">No hay vehículos registrados aún.</td></tr>
         <?php else: ?>
             <?php foreach ($datos['vehiculos'] as $v): ?>
             <tr>
                 <td class="td-id"><?= $v['id'] ?></td>
                 <td>
-                    <span class="ico"><?= $iconoCategoria[$v['categoria']] ?? '🚘' ?></span>
-                    <small class="cat-label"><?= $v['categoria'] ?></small>
+                    <div class="vehiculo-cell">
+                        <div class="vehiculo-thumb">
+                            <?php if (!empty($v['imagen'])): ?>
+                                <img src="View/assets/img/uploads/<?= htmlspecialchars($v['imagen']) ?>"
+                                     alt="<?= htmlspecialchars($v['marca'].' '.$v['modelo']) ?>"
+                                     class="vehiculo-img">
+                            <?php else: ?>
+                                <div class="vehiculo-sin-img">
+                                    <span class="vehiculo-sin-img-ico">📷</span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="vehiculo-info">
+                            <strong><?= htmlspecialchars($v['marca']) ?> <?= htmlspecialchars($v['modelo']) ?></strong>
+                            <small class="cat-label"><?= $v['categoria'] ?></small>
+                        </div>
+                    </div>
                 </td>
-                <td><strong><?= htmlspecialchars($v['marca']) ?> <?= htmlspecialchars($v['modelo']) ?></strong></td>
                 <td><?= $v['anio'] ?></td>
                 <td><code class="placa-code"><?= htmlspecialchars($v['placa']) ?></code></td>
                 <td><span class="badge <?= $badgeEstado[$v['estado']] ?? 'badge-gris' ?>"><?= $v['estado'] ?></span></td>

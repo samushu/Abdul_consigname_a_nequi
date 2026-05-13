@@ -25,6 +25,7 @@ function err(array $errs, string $key): string {
 
 <div class="form-card">
     <form method="POST"
+          enctype="multipart/form-data"
           action="index.php?modulo=vehiculos&accion=<?= $esEditar ? 'editar&id='.(int)$datos['id'] : 'crear' ?>">
 
         <div class="form-grid">
@@ -88,8 +89,38 @@ function err(array $errs, string $key): string {
                 <label for="precio_dia">Precio por día (COP)</label>
                 <input type="number" id="precio_dia" name="precio_dia"
                        value="<?= val($v, 'precio_dia') ?>"
-                       min="1" step="1000" placeholder="150000" required>
+                       min="1" step="1" placeholder="150000" required>
                 <?= err($errores, 'precio_dia') ?>
+            </div>
+
+            <!-- ── Foto del vehículo ───────────────────────── -->
+            <div class="campo full">
+                <label for="imagen">
+                    Foto del vehículo
+                    <span class="lbl-hint">
+                        <?= $esEditar
+                            ? '— dejar vacío para conservar la actual'
+                            : '— opcional · JPG, PNG o WEBP · máx. 2 MB' ?>
+                    </span>
+                </label>
+
+                <!-- Preview: imagen actual (editar) o preview de nueva selección -->
+                <div class="img-preview-wrap<?= ($esEditar && !empty($v['imagen'])) ? '' : ' oculto' ?>" id="preview-wrap">
+                    <img id="img-preview"
+                         src="<?= ($esEditar && !empty($v['imagen'])) ? 'View/assets/img/uploads/'.htmlspecialchars($v['imagen']) : '' ?>"
+                         alt="Vista previa"
+                         class="img-preview">
+                </div>
+
+                <label for="imagen" class="file-label">
+                    <span id="file-nombre">
+                        <?= ($esEditar && !empty($v['imagen'])) ? 'Cambiar imagen…' : 'Seleccionar imagen…' ?>
+                    </span>
+                    <input type="file" id="imagen" name="imagen"
+                           accept="image/jpeg,image/png,image/webp"
+                           class="file-input">
+                </label>
+                <?= err($errores, 'imagen') ?>
             </div>
         </div>
 
@@ -101,5 +132,23 @@ function err(array $errs, string $key): string {
         </div>
     </form>
 </div>
+
+<script>
+document.getElementById('imagen').addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    document.getElementById('file-nombre').textContent = file.name;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const preview = document.getElementById('img-preview');
+        const wrap    = document.getElementById('preview-wrap');
+        preview.src = e.target.result;
+        wrap.classList.remove('oculto');
+    };
+    reader.readAsDataURL(file);
+});
+</script>
 
 <?php require_once __DIR__ . '/../shared/footer.php'; ?>

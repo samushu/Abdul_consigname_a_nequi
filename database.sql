@@ -64,3 +64,11 @@ INSERT INTO vehiculos (marca, modelo, anio, placa, categoria, estado, precio_dia
 ('Honda',     'CB500F',        2022, 'GHI-789', 'MOTO',       'DISPONIBLE',  80000),
 ('Chevrolet', 'Tracker',       2023, 'JKL-012', 'AUTOMOVIL',  'ALQUILADO',  160000),
 ('Ford',      'Ranger',        2024, 'MNO-345', 'CAMIONETA',  'MANTENIMIENTO', 220000);
+
+-- ============================================================
+--  RumBoss · Migración: agregar imagen a vehículos
+--  Ejecutar UNA sola vez en tu gestor (phpMyAdmin / terminal)
+-- ============================================================
+ALTER TABLE vehiculos
+    ADD COLUMN imagen VARCHAR(255) NULL DEFAULT NULL
+    AFTER precio_dia;

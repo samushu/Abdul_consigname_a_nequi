@@ -15,7 +15,7 @@
 <body>
 
 <nav class="navbar">
-    <a href="index.html" class="navbar-brand"><span>Rum</span>Boss</a>
+    <a href="index.php" class="navbar-brand"><span>Rum</span>Boss</a>
     <div class="nav-links">
         <a href="index.php?modulo=vehiculos"
            class="<?= (($modulo ?? '') === 'vehiculos') ? 'activo' : '' ?>">Vehículos</a>
